@@ -1,7 +1,7 @@
-
 const jwt = require('jsonwebtoken');
 var { expressjwt: jsonToken } = require("express-jwt");
-
+const dotenv = require('dotenv');
+dotenv.config({path: './config/.env'})
 
 exports.login = (req, res) => {
     const { name, password } = req.body;
@@ -17,6 +17,6 @@ exports.login = (req, res) => {
 };
 
 exports.requireSignin = jsonToken({
-    secret: "UMRCbUtjQu120AHoZKH4",
+    secret: process.env.JWT_SECRET,
     algorithms: ["HS256"]
 });
