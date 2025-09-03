@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import { getToken } from './helpers';
+import { getToken } from './helpers';
 const Update = () => {
     const [state, setState] = useState({
         title: '',
@@ -34,7 +34,13 @@ const Update = () => {
         event.preventDefault();
         // console.table({ title, content, user });
         axios
-            .put(`${import.meta.env.VITE_APP_API}post/${slug}`, { title, content, user })
+            .put(`${import.meta.env.VITE_APP_API}post/${slug}`, { title, content, user },
+                {
+                    headers: {
+                        authorization: `Bearer ${getToken()}`
+                    }
+                }
+            )
             .then(response => {
                 console.log(response);
                 const { title, content, slug, user } = response.data;

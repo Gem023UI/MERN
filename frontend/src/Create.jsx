@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Nav from './Nav';
 import Title from './Title';
 import axios from 'axios'
+import { getToken } from './helpers';
 
 const Create = () => {
 
@@ -17,7 +19,7 @@ const Create = () => {
 
     const handleChange = name => event => {
         console.log('name', name, 'event', event.target.value);
-        
+
         setState({ ...state, [name]: event.target.value });
     };
 
@@ -25,10 +27,15 @@ const Create = () => {
         event.preventDefault();
         // console.table({ title, content, user });
         axios
-            .post(`${import.meta.env.VITE_APP_API}post`, { title, content, user }
+            .post(`${import.meta.env.VITE_APP_API}post`, { title, content, user },
+                {
+                    headers: {
+                        authorization: `Bearer ${getToken()}`
+                    }
+                }
             ).then(response => {
                 console.log(response);
-                
+
                 setState({ ...state, title: '', content: '', user: '' });
                 // show sucess alert
                 navigate('/')
