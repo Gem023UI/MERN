@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import axios from 'axios'
 import Product from './Product/Product'
@@ -12,8 +13,10 @@ const Home = () => {
     const [resPerPage, setResPerPage] = useState(0)
     const [loading, setLoading] = useState(true)
 
-    const getProducts = async () => {
-        let link = `http://localhost:4001/api/v1/products`
+    let { keyword } = useParams();
+
+    const getProducts = async (keyword='') => {
+        let link = `http://localhost:4001/api/v1/products?keyword=${keyword}`
 
         let res = await axios.get(link)
         console.log(res)
@@ -25,8 +28,8 @@ const Home = () => {
     }
 
     useEffect(() => {
-        getProducts()
-    }, []);
+        getProducts(keyword)
+    }, [keyword]);
     return (
         <>
             <MetaData title={'Buy Best Products Online'} />
